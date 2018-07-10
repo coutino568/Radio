@@ -1,13 +1,40 @@
 
 fun main(args: Array<String>){
     val andy=Radio(frecuencia="FM",volumen=50,estacion_FM=90.5,estacion_AM=580)
-    andy.mostrar()
-    andy.turn_On()
-    andy.mostrar()
-    andy.mode()
-    andy.mostrar()
-    andy.volumen10()
-    andy.mostrar()
+    //do{}while()
+    var run= true
+    while(run==true){
+        //va a repetir este ciclo mientras no elija una opcion valida para el menu cuando esta apagado
+        while(andy.estado_on==false && run==true){
+            andy.mostrar()
+            andy.menu_apagado()
+            var seleccion= readLine()
+            if(seleccion=="1"){andy.turn_On()}
+            else if (seleccion=="2"){run=false}else{println("OPCION INVALIDA\n")}
+        }
+
+        //se va a repetir este ciclo mientras no elija una opcion valida para el menu cuando esta encencido
+        while(andy.estado_on==true&&run==true){andy.mostrar()
+            andy.menu_encendido()
+            var seleccion= readLine()
+            if(seleccion=="1"){andy.turn_Off()}else
+                if(seleccion=="2"){andy.mode()}else
+                    if(seleccion=="3"){andy.volumen10()}else
+                        if(seleccion=="4"){andy.volumen_10()}else
+                            if(seleccion=="5"){andy.volumen1()}else
+                                if(seleccion=="6"){andy.volumen_1()}else
+                                    if(seleccion=="7"){
+                                        if(andy.frecuencia=="AM"){andy.khz20()}
+                                        if(andy.frecuencia=="FM"){andy.mhz10()}
+                                    }else
+                                        if(seleccion=="8"){
+                                            if(andy.frecuencia=="AM"){andy.khz_20()}
+                                            if(andy.frecuencia=="FM"){andy.mhz_10()}
+                                        }else
+                                            if(seleccion=="9"){run=false}else{println("OPCION INVALIDA")}
+        }    }
+
+    println("ADIOS")
 }
 
 
@@ -61,7 +88,7 @@ class Radio(var estado_on:Boolean= false,
     }
     //quita volumen de 10 en 10
     fun volumen_10(){
-        if(volumen-10<0){
+        if(volumen-10<=0){
             volumen=0
             println("VOLUMEN MINIMO!")
         }else if(volumen-10>0){
@@ -70,7 +97,7 @@ class Radio(var estado_on:Boolean= false,
     }
     //quita volumen de 1 en 1
     fun volumen_1(){
-        if(volumen-1<0){
+        if(volumen-1<=0){
             volumen=0
             println("VOLUMEN MINIMO!")
         }else if(volumen-1>0){
@@ -97,7 +124,7 @@ class Radio(var estado_on:Boolean= false,
     fun mhz10(){
         if(estacion_FM+0.1>107.1){
             estacion_FM=87.5
-        }else if(estacion_FM+0.1>=107.7){
+        }else if(estacion_FM+0.1<=107.7){
             estacion_FM=estacion_FM+0.1
         }
     }
@@ -109,7 +136,14 @@ class Radio(var estado_on:Boolean= false,
             estacion_FM=estacion_FM-0.1
         }
     }
-
+    //ensena las opciones del menu si esta apagado
+    fun menu_apagado(){
+        println("1)ENCENDER\n2)SALIR\n")
+    }
+    //ensena las opciones del menu si esta encendido
+    fun menu_encendido(){
+        println("1)APAGAR\n2)CAMBIAR MODO\n3)+10 VOLUMEN\n4)-10 VOLUMEN\n5)+1 Volumen\n6)-1 VOLUMEN\n7)+ESTACION\n8)-ESTACION\n9)SALIR\n")
+    }
 
     }
 
